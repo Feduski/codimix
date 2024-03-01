@@ -1,0 +1,10 @@
+codimix/secret.txt
+codimix/settings.py
+codimixapp/static/favicon.ico
+
+__pycache__/
+*.pyc
+db.sqlite3
+env/
+media/
+venv/

@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>Codimix</title>
+</head>
+<body>
+    <div class="container">
+        {% block content %}
+        <h1 id= 'title'>Comidix</h1>
+        <p>The best AI tool for CODING.</p>
+        <form method="post" action="{% url 'home' %}">
+            {% csrf_token %}
+
+            <div class="form-control">
+                <input class="input input-alt" placeholder="Ask something intelligent" required="" type="text">
+                <span class="input-border input-border-alt"></span>
+            </div>
+            <button class= "button2" type="submit">Submit</button>
+            <div class="div-response">
+
+                <div class="tools">
+                <div class="circle">
+                    <span class="red box"></span>
+                </div>
+                <div class="circle">
+                    <span class="yellow box"></span>
+                </div>
+                <div class="circle">
+                    <span class="green box"></span>
+                </div>
+                </div>
+                <div class="card__content">
+                    <code>
+                        with open('example.txt', 'w') as file:
+                        file.write("Hello, world!\n")
+                        file.write("This is an example file.\n")
+                        file.write("We are writing some lines to this file.\n")
+                    print("File written successfully.")
+                    </code>
+                </div>
+            </div>
+
+        </form>
+        {% endblock %}
+</body>
+</html>
