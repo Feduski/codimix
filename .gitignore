@@ -1,7 +1,7 @@
 codimix/secret.txt
 codimix/settings.py
 codimixapp/static/favicon.ico
-
+*.env
 __pycache__/
 *.pyc
 db.sqlite3
