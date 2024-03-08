@@ -6,7 +6,6 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <script src= "{% static 'js/main.js' %}"></script>
     <title>Codimix</title>
 </head>
 <body>
@@ -14,14 +13,14 @@
         {% block content %}
         <h1 id='title'>Comidix</h1>
         <p>The best AI tool for CODING.</p>
-        <form method="post" action="{% url 'home' %}">
+        <form method="post" action="{% url 'home' %}" id="user-input-form">
             {% csrf_token %}
 
             <div class="form-control">
-                <input class="input input-alt" placeholder="Ask something intelligent" required="" type="text" name="user_input">
+                <input class="input input-alt" placeholder="Ask something intelligent" required="" type="text" name="user_input" id="user_input">
                 <span class="input-border input-border-alt"></span>
             </div>
-            <button class="button2" type="submit">Submit</button>
+            <button id="submit-button" class="button2" type="button">Submit</button>
 
         </form>
         <div class="div-response">
@@ -42,11 +41,7 @@
             </div>
 
             <div class="card_content">
-                <p id="textToCopy">
-                    {{ user_sent }}
-
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit exercitationem at commodi. Rerum ipsam et accusamus modi, cupiditate aut ad non dolores perspiciatis quas nobis necessitatibus, iste, animi quis soluta! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse adipisci culpa error assumenda enim blanditiis accusamus laudantium quas consequatur, deleniti possimus impedit repudiandae expedita corrupti alias veritatis voluptas sunt eum Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe quia tenetur quod libero molestiae ipsum commodi explicabo voluptates et veniam, consequatur minima. Dignissimos quae, esse voluptas aperiam voluptates numquam modi.
-                </p> 
+                <p id="textToCopy"></p> 
             </div>
         </div>
     
@@ -56,4 +51,5 @@
 </footer>  
 
 {% endblock %}  
+<script src= "{% static 'js/main.js' %}"></script>
 </html>
