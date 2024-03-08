@@ -15,8 +15,6 @@ def process_user_input(request):
     user_input = request.GET.get('user_input')
     return JsonResponse({'user_sent' : user_input})
 
-
-
 """        prompt_template = os.getenv("TEMPLATE")
         
         message = llm.invoke(prompt_template, query = user_input)
