@@ -99,31 +99,7 @@ h1, p {
   padding: 9px;
   background-color: #420836;
   border-radius: 0.8em;
- }
- 
- .circle {
-  padding: 0 4px;
- }
- 
- .box {
-  display: inline-block;
-  align-items: center;
-  width: 10px;
-  height: 10px;
-  padding: 1px;
-  border-radius: 50%;
- }
- 
- .red {
-  background-color: #ff605c;
- }
- 
- .yellow {
-  background-color: #ffbd44;
- }
- 
- .green {
-  background-color: #00ca4e;
+  height: 1.2em;
  }
 
 .button2 {
@@ -227,4 +203,13 @@ transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
   text-align: center; 
   font-size: 16px; 
   position: inherit; 
+}
+
+.language_selector{
+  background-color: #3e08967a;
+  border-radius: 0.8em;
+  padding: .5em;
+  position: absolute;
+  cursor: pointer;
+  color: white;
 }

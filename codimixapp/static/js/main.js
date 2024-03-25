@@ -20,17 +20,26 @@ function copyToClipboard() {
 document.getElementById('submit-button').addEventListener('click', input_to_code);
 
 function input_to_code() {
-    console.log('Button clicked, function called')
-    if (document.getElementById('user_input').value !== '') {
+    if (document.getElementById('user_input').value !== '' && document.getElementById('language-select').value !== 'sela') {
+        //receive user input
         const text = document.getElementById('user_input').value;
         fetch(`/process_user_input/?user_input=${encodeURIComponent(text)}`)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('textToCopy').innerText = data.user_sent;
-        })
-        .catch(error => console.error('Error:', error));
-        console.log('Function finished')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('textToCopy').innerText = data.user_sent;
+            })
+            .catch(error => console.error('Error:', error));
+        //restarts input field    
         document.getElementById('user_input').value = '';
+
+        //receive language
+        const selectedLanguage = document.getElementById('language-select').value;
+        console.log('selected language: ', selectedLanguage);
+        fetch(`/process_user_input/?language_selected=${encodeURIComponent(selectedLanguage)}`)
+            .catch(error => console.error('Error:', error));
+
+    } else{
+        alert('Please enter text and select a language')
 }};
 
 var user_input = document.getElementById("user_input");
@@ -39,6 +48,5 @@ user_input.addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
       event.preventDefault();
       document.getElementById("submit-button").click();
-      input_to_code();
     }
   });

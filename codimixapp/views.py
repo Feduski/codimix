@@ -1,22 +1,16 @@
-from django.shortcuts import render, HttpResponse
-from langchain_google_genai import ChatGoogleGenerativeAI
+from django.shortcuts import render, HttpResponse, redirect
 from dotenv import load_dotenv
 from django.http import JsonResponse
 import os 
 
 load_dotenv()
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=GOOGLE_API_KEY)
+OPEN_AI_KEY = os.getenv("OPEN_AI_KEY")
+
 
 def home(request):
     return render(request, 'base.html')
 
 def process_user_input(request):
     user_input = request.GET.get('user_input')
-    return JsonResponse({'user_sent' : user_input})
-
-"""        prompt_template = os.getenv("TEMPLATE")
-        
-        message = llm.invoke(prompt_template, query = user_input)
-
-        return render(request, 'base.html', {'user_sent': message.content})"""
+    selected_language = request.GET.get('selected_language')
+    return JsonResponse({'user_sent' : user_input, 'selected_language': selected_language})

@@ -24,16 +24,14 @@
 
         </form>
         <div class="div-response">
+            
             <div class="tools">
-                <div class="circle">
-                    <span class="red box"></span>
-                </div>
-                <div class="circle">
-                    <span class="yellow box"></span>
-                </div>
-                <div class="circle">
-                    <span class="green box"></span>
-                </div>
+                <select class='language_selector' required="" name="language-select" id="language-select" value="Select a language">
+                    <option value="sela" disabled selected required>Select a language</option>
+                    <option value="python">Python</option>
+                    <option value="javascript">Javascript</option>
+                    <option value="cplusplus">C++</option>
+                </select>
 
                 <button onclick="copyToClipboard()" class='copytoclipbtn'> 
                     <img class="copy-img"src="static/images/copy.png"></img>
