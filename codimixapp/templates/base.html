@@ -6,48 +6,35 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base-styles.css' %}">
     <title>Codimix</title>
 </head>
 <body>
     <div class="container">
-        {% block content %}
+
+        <header>
+            <div class="nav">
+                <nav>
+                    <a href="{% url 'home' %}">Home</a>
+                    <a href="{% url 'register' %}">Register</a>
+                    <a href="{% url 'base' %}">Base</a>
+                </nav>
+            </div>
+        </header>
+
         <h1 id='title'>Comidix</h1>
         <p>The best AI tool for CODING.</p>
-        <form method="post" action="{% url 'home' %}" id="user-input-form">
-            {% csrf_token %}
 
-            <div class="form-control">
-                <input class="input input-alt" placeholder="Ask something intelligent" required="" type="text" name="user_input" id="user_input">
-                <span class="input-border input-border-alt"></span>
-            </div>
-            <button id="submit-button" class="button2" type="button">Submit</button>
+        {% block content %}
 
-        </form>
-        <div class="div-response">
-            
-            <div class="tools">
-                <select class='language_selector' required="" name="language-select" id="language-select" value="Select a language">
-                    <option value="sela" disabled selected required>Select a language</option>
-                    <option value="python">Python</option>
-                    <option value="javascript">Javascript</option>
-                    <option value="cplusplus">C++</option>
-                </select>
+        {% endblock %}
 
-                <button onclick="copyToClipboard()" class='copytoclipbtn'> 
-                    <img class="copy-img"src="static/images/copy.png"></img>
-                </button>
-            </div>
+        <footer class="site-footer">
+            <p>&copy; 2024 Codimix. All rights reserved.</p>
+        </footer>
 
-            <div class="card_content">
-                <p id="textToCopy"> HERE SHOULD BE THE CODE RETURNED FROM THE AI </p> 
-            </div>
-        </div>
-    
+    </div>
+
 </body>
-<footer class="site-footer">
-    <p>&copy; 2024 Codimix. All rights reserved.</p>
-</footer>  
-
-{% endblock %}  
 <script src= "{% static 'js/main.js' %}"></script>
 </html>
