@@ -1,6 +1,6 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from dotenv import load_dotenv, dotenv_values
 from django.http import JsonResponse
@@ -55,13 +55,31 @@ def register_view(request):
                     password=request.POST['password1']
                 )
                 user.save()
-                return render(request, 'register.html', {
-                'form': UserCreationForm(),
-                'error': 'USER CREATED'
-                })
-            except:
-                print('User already exists')
+                login(request, user)
+                return redirect('home')
+            except Exception as e:
+                print(f'User already exists, {e}')
                 return render(request, 'register.html', {
                     'form': UserCreationForm(),
                     'error': 'User already exists'
                 })
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')
+
+def login_view(request):
+    if request.method == 'GET':
+        return render(request, 'login.html', {'form': AuthenticationForm()})
+    else:
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            return render(request, 'login.html', {
+                'form': AuthenticationForm(),
+                'error': 'Invalid username or password'
+            })
