@@ -1,9 +1,9 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 # Create your models here.
-class UserProfile(models.Model):
-    username = models.CharField(max_length=25, unique=True)
-    password = models.CharField(max_length=64)
+class CustomUser(AbstractUser):
+    credits = models.IntegerField(default=5)
 
     def __str__(self):
         return self.username

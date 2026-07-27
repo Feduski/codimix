@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h2>Testing Files</h2>
+
+    {% for user in users %}
+        <p>{{ user.username }}</p>
+        <p>{{ user.password }}</p>
+        <p>{{ user.credits }}</p>
+    {% endfor %}
+
+{% endblock %}

@@ -37,7 +37,6 @@ function input_to_code() {
     }
 }
 
-
 var user_input = document.getElementById("user_input");
 
 user_input.addEventListener("keypress", function(event) {

@@ -1,8 +1,11 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import login_required
+from .models import CustomUser
+from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from dotenv import load_dotenv, dotenv_values
+from django.db import IntegrityError
 from django.http import JsonResponse
 from openai import OpenAI
 import os 
@@ -19,20 +22,33 @@ def home(request):
 def base(request):
     return render(request, 'base.html')
 
+@login_required(login_url='login.html')
 def process_user_input(request):
-    user_input = request.GET.get('user_input')
-    print(user_input)
-    selected_language = request.GET.get('selected_language')
-    print(selected_language)
-    completion = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": prompt_template.format(language = selected_language)},
-            {"role": "user", "content": user_input},
-        ]
-    )
-    user_sent_to = completion.choices[0].message.content
-    return JsonResponse({'user_sent' : user_sent_to, 'selected_language': selected_language})
+    if not request.user.is_authenticated:
+        print('User not authenticated')
+        """return render(request, 'home.html', {
+            'error_message': 'Error: You must be logged in to use this feature.'
+        })"""
+    elif request.user.credits < 1:
+        print('No more credits')
+        """return render(request, 'home.html', {
+            'error_message': 'Error: Not enough credits.'
+        })"""
+
+    else:
+        request.user.credits -= 1
+        request.user.save()
+        user_input = request.GET.get('user_input')
+        selected_language = request.GET.get('selected_language')
+        completion = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": prompt_template.format(language = selected_language)},
+                {"role": "user", "content": user_input},
+            ]
+        )
+        user_sent_to = completion.choices[0].message.content
+        return JsonResponse({'user_sent' : user_sent_to, 'selected_language': selected_language})
 
 def register_view(request):
     if request.method == 'GET':
@@ -43,25 +59,31 @@ def register_view(request):
         if request.POST['password1'] != request.POST['password2']:
             print('Passwords do not match')
             return render(request, 'register.html', {
-                'form': UserCreationForm(),
+                'form': UserCreationForm,
                 'error': 'Passwords do not match'
             })
 
         else:
             try:
                 print('Creating user')
-                user = User.objects.create_user(
+                user = CustomUser.objects.create_user(
                     username=request.POST['username'],
-                    password=request.POST['password1']
+                    password=request.POST['password1'],
                 )
                 user.save()
                 login(request, user)
                 return redirect('home')
-            except Exception as e:
+            except IntegrityError as e:
                 print(f'User already exists, {e}')
                 return render(request, 'register.html', {
-                    'form': UserCreationForm(),
+                    'form': UserCreationForm,
                     'error': 'User already exists'
+                })
+            except Exception as e:
+                print(f'Error creating user, {e}')
+                return render(request, 'register.html', {
+                    'form': UserCreationForm,
+                    'error': 'Error creating user'
                 })
 
 def logout_view(request):
@@ -83,3 +105,7 @@ def login_view(request):
                 'form': AuthenticationForm(),
                 'error': 'Invalid username or password'
             })
+        
+def testing_files(request):
+    users = CustomUser.objects.all()
+    return render(request, 'testing.html', {'users': users})

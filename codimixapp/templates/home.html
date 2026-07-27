@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>Codimix</title>
+</head>
+<body>
+
+    {% block content %}
+        <form method="post" action="{% url 'home' %}" id="user-input-form">
+            {% csrf_token %}
+
+            <div class="form-control">
+                <input class="input input-alt" placeholder="Ask something intelligent" required="" type="text" name="user_input" id="user_input">
+                <!-- cambiar ppor un text area y agregar propiedad field-sizing: content;-->
+                <span class="input-border input-border-alt"></span>
+            </div>
+            <button id="submit-button" class="button2" type="button">Submit</button>
+            <p id="error-message">{{error_message}}</p>
+        </form>
+        <div class="response-container">    
+            <div class="tools">
+                <select class='language_selector' required="" name="language-select" id="language-select" value="Select a language">
+                    <option value="sela" disabled selected required>Select a language</option>
+                    <option value="python">Python</option>
+                    <option value="javascript">Javascript</option>
+                    <option value="cplusplus">C++</option>
+                </select>
+
+                <button onclick="copyToClipboard()" class='copytoclipbtn'> 
+                    <img class="copy-img"src="static/images/copy.png"></img>
+                </button>
+            </div>
+
+            <div class="card_content">
+                <div class="second-card-content">
+                    <code id="textToCopy"> HERE SHOULD BE THE CODE RETURNED FROM THE AI </code> 
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+
+</body>
